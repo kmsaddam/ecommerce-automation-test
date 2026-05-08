@@ -20,23 +20,7 @@ Ecommerce Automation Project to verify Login, Cart and Checkout using Playwright
 
 ## 📁 Project Structure
 
-```
-project-root/
-│
-├── tests/              # Test files
-│   ├── example.spec.ts
-│
-├── pages/              # Page Object Models (optional)
-│   ├── loginPage.ts
-│
-├── utils/              # Helper functions
-│
-├── playwright.config.ts
-├── package.json
-└── README.md
-```
 
----
 
 ## ⚙️ Installation
 
