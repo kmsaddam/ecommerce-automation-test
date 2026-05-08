@@ -42,7 +42,7 @@ project-root/
 
 ### 1. Clone the repository
 
-git clone https://github.com/kmsaddam/ecommerce-automation-test.git
+git clone https://github.com/kmsaddam/ecommerce-automation-test.git <br >
 cd ecommerce-automation-test
 
 
@@ -56,7 +56,7 @@ npm init playwright@latest
 
 ### 4. Install Allure 
 
-npm install -D allure-playwright
+npm install -D allure-playwright <br >
 npm install -D allure-commandline
 
 
@@ -79,20 +79,20 @@ npx playwright test tests/locked-out-user.spec.ts
 
 ## 📊 Viewing Reports
 
-After execution, view the HTML report:
+After execution, view the HTML report: <br >
 
-npx playwright show-report
+npx playwright show-report <br >
 npx allure generate allure-results --clean -o allure-report
 
 
 ## 🛠 Configuration
 
-Playwright configuration is located in:
+Playwright configuration is located in: <br >
 
-playwright.config.ts
+playwright.config.ts <br >
 
 
-You can configure:
+You can configure: <br >
 
 * Browsers
 * Timeouts
