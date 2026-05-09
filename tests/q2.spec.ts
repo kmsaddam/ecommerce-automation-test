@@ -49,27 +49,31 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
         for (const cardPageItem of cartPageItems) {
             // console.log(it);
             // console.log(selectedProducts[it].name);
-            await expect(cartPageItems).toContain(selectedProducts[it].name)
+         expect(cartPageItems).toContain(selectedProducts[it].name)
             // await expect(page.locator('.inventory_item_name')).toContainText(selectedProducts[it].name!.trim());
             it++;
 
         }
 
-        await page.locator("#checkout").click();
+        // Verify  items total price
 
+        const totalPriceSelector = await page.locator('.inventory_item_price').allTextContents();
+        // const totalPriceCartPage = parseFloat(totalPriceSelector!.replace('$', ''));
+        console.log(totalPriceSelector);
+        const totalCartPrice = totalPriceSelector.reduce((sum, current) => {
+                const num = parseFloat(current.replace(/[$,]/g, ''));
+                return sum + num;
+                }, 0);
+
+                console.log(totalCartPrice);
+
+        const selectedItemPrice = selectedProducts.reduce((sum, item) => sum + item.price, 0);
+        console.log(selectedItemPrice);
+
+        expect(totalCartPrice).toEqual(selectedItemPrice)
         // Start Checkout
 
-        // for (const product of selectedProducts) {
-        //     // let item =  page.locator('.inventory_item_name');
-        //     // await expect(item).toContainText(product.name!.trim());
-        //     // await page.waitForTimeout(1000);
-
-        //     await expect(page.locator('.inventory_item_name')).toContainText(product.name);
-        //     console.log(product.name);
-        //     await page.waitForTimeout(1000);
-        // }
-
-        
+        await page.locator("#checkout").click();
 
         //Checkout
         await checkout(page);

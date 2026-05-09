@@ -1,0 +1,5 @@
+Total products found: 6
+Sauce Labs Backpack
+Sauce Labs Bike Light
+Sauce Labs Bolt T-Shirt
+[ '$29.99', '$9.99', '$15.99' ]
