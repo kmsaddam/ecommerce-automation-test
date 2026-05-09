@@ -8,31 +8,34 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
         // Login
         await page.goto("https://www.saucedemo.com/");
         await page.locator('#user-name').fill('standard_user');
-        await page.waitForTimeout(2000);
+        await page.waitForTimeout(1000);
         await page.locator('#password').fill('secret_sauce');
-        await page.waitForTimeout(2000);
+        await page.waitForTimeout(1000);
         await page.locator('#login-button').click();
+
+        // Reset App State
+        await resetAppState(page);
+        
     });
 });
 
 // Helper Functions
 
-// async function resetAppState(page) {
-//   await page.locator('#react-burger-menu-btn').click();
+async function resetAppState(page:any) {
+await page.waitForTimeout(1000);
+  await page.locator('#react-burger-menu-btn').click();
+  await page.waitForTimeout(1000);
+  await expect(page.locator('#reset_sidebar_link')).toBeVisible();
+  await page.waitForTimeout(1000);
+  await page.locator('#reset_sidebar_link').click();
+  await page.waitForTimeout(1000);
+  await page.locator('#react-burger-cross-btn').click();
+  await page.waitForTimeout(1000);
+}
 
-//   await expect(page.locator('#reset_sidebar_link')).toBeVisible();
-
-//   await page.locator('#reset_sidebar_link').click();
-
-//   await page.locator('#react-burger-cross-btn').click();
-// }
-
-// async function logout(page) {
-//   await page.locator('#react-burger-menu-btn').click();
-
-//   await expect(page.locator('#logout_sidebar_link')).toBeVisible();
-
-//   await page.locator('#logout_sidebar_link').click();
-
-//   await expect(page).toHaveURL(/.*saucedemo\.com/);
-// }
+async function logout(page: any) {
+  await page.locator('#react-burger-menu-btn').click();
+  await expect(page.locator('#logout_sidebar_link')).toBeVisible();
+  await page.locator('#logout_sidebar_link').click();
+  await expect(page).toHaveURL(/.*saucedemo\.com/);
+}
