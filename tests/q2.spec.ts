@@ -1,12 +1,12 @@
 import {test, expect} from '@playwright/test';
 
-// const baseURL = 'https://www.saucedemo.com/';
+const baseURL = 'https://www.saucedemo.com/';
 
 test.describe('Standrad User Login, Cart, Checkout', () => {
     test('Login, Add Items to Cart, Checkout, Logout', async ({page}) => {
 
         // Login
-        await page.goto("https://www.saucedemo.com/");
+        await page.goto(baseURL);
         await page.locator('#user-name').fill('standard_user');
         await page.waitForTimeout(1000);
         await page.locator('#password').fill('secret_sauce');
