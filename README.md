@@ -66,7 +66,8 @@ npx playwright test tests/locked-out-user.spec.ts
 After execution, view the HTML report: <br >
 
 npx playwright show-report <br >
-npx allure generate allure-results --clean -o allure-report
+npx allure generate allure-results --clean -o allure-report <br >
+npx allure open allure-report <br >
 
 
 ## 🛠 Configuration
