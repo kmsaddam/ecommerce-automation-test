@@ -42,11 +42,28 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
 
         await page.locator('.shopping_cart_link').click();
         // Verify product items names in cart
-        for (const product of selectedProducts) {
-            await expect(page.locator('.inventory_item_name')).toContainText(product.name);
-            await page.waitForTimeout(1000);
-            console.log(product.name);
+
+        let cartPageItems = await page.locator('.inventory_item_name').allTextContents();
+        // console.log(cartPageItems);
+        let it = 0;
+        for (const cardPageItem of cartPageItems) {
+            // console.log(it);
+            // console.log(selectedProducts[it].name);
+            await expect(cartPageItems).toContain(selectedProducts[it].name)
+            // await expect(page.locator('.inventory_item_name')).toContainText(selectedProducts[it].name!.trim());
+            it++;
+
         }
+
+        // for (const product of selectedProducts) {
+        //     // let item =  page.locator('.inventory_item_name');
+        //     // await expect(item).toContainText(product.name!.trim());
+        //     // await page.waitForTimeout(1000);
+
+        //     await expect(page.locator('.inventory_item_name')).toContainText(product.name);
+        //     console.log(product.name);
+        //     await page.waitForTimeout(1000);
+        // }
 
         
 
