@@ -37,27 +37,27 @@ test.describe('Performance Glitch User Login, Filter, Cart, Checkout', () => {
         const cartItemPrice = await cartProduct.locator('.inventory_item_price').textContent();
 
         console.log(cartItemName);
-        // // Verify product item name in cart
-        // expect(firstItemName).toEqual(cartItemName);
+        // Verify product item name in cart
+        expect(firstItemName).toEqual(cartItemName);
 
-        // // Verify product item price in cart
-        // expect(firstItemPrice).toEqual(cartItemPrice);
+        // Verify product item price in cart
+        expect(firstItemPrice).toEqual(cartItemPrice);
 
-        // // Start Checkout
+        // Start Checkout
 
-        // await page.locator("#checkout").click();
+        await page.locator("#checkout").click();
 
-        // //Checkout
-        // await checkout(page);
+        //Checkout
+        await checkout(page);
 
-        // // Finish order
-        // await page.locator('#finish').click();
+        // Finish order
+        await page.locator('#finish').click();
         
-        // // Verify success message
-        // await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
+        // Verify success message
+        await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
 
-        // //Logout
-        // await logout(page);
+        //Logout
+        await logout(page);
         
     });
 });
