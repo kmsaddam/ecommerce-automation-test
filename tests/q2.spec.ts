@@ -55,6 +55,10 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
 
         }
 
+        await page.locator("#checkout").click();
+
+        // Start Checkout
+
         // for (const product of selectedProducts) {
         //     // let item =  page.locator('.inventory_item_name');
         //     // await expect(item).toContainText(product.name!.trim());
@@ -67,11 +71,17 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
 
         
 
-        // Checkout
-        //await checkout(page);
+        //Checkout
+        await checkout(page);
 
-        // Logout
-        //await logout(page);
+        // Finish order
+        await page.locator('#finish').click();
+        
+        // Verify success message
+        await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
+
+        //Logout
+        await logout(page);
         
     });
 });
@@ -100,8 +110,8 @@ async function logout(page: any) {
 }
 
 async function checkout(page: any) {
-    await page.locator('[data-test="firstName"]').fill('Jane');
-    await page.locator('[data-test="lastName"]').fill('Smith');
-    await page.locator('[data-test="postalCode"]').fill('2000');
-    await page.locator('[data-test="continue"]').click();
+    await page.locator('#first-name').fill('Saddam');
+    await page.locator('#last-name').fill('Hossain');
+    await page.locator('#postal-code').fill('1230');
+    await page.locator('#continue').click();
 }
