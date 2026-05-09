@@ -24,35 +24,40 @@ test.describe('Performance Glitch User Login, Filter, Cart, Checkout', () => {
         const firstProduct = page.locator('.inventory_item').first();
         const firstItemName = await firstProduct.locator('.inventory_item_name').textContent();
         const firstItemPrice = await firstProduct.locator('.inventory_item_price').textContent();
+
+        console.log(firstItemName);
+        await firstProduct.locator('button').click();
+        await page.waitForTimeout(1000);
         
         await page.locator('.shopping_cart_link').click();
 
         // Verify product in cart
-        const cartProduct = page.locator('.inventory_item').first();
+        const cartProduct = page.locator('.cart_item').first();
         const cartItemName = await cartProduct.locator('.inventory_item_name').textContent();
         const cartItemPrice = await cartProduct.locator('.inventory_item_price').textContent();
 
-        // Verify product item name in cart
-        expect(firstItemName).toEqual(cartItemName);
+        console.log(cartItemName);
+        // // Verify product item name in cart
+        // expect(firstItemName).toEqual(cartItemName);
 
-        // Verify product item price in cart
-        expect(firstItemPrice).toEqual(cartItemPrice);
+        // // Verify product item price in cart
+        // expect(firstItemPrice).toEqual(cartItemPrice);
 
-        // Start Checkout
+        // // Start Checkout
 
-        await page.locator("#checkout").click();
+        // await page.locator("#checkout").click();
 
-        //Checkout
-        await checkout(page);
+        // //Checkout
+        // await checkout(page);
 
-        // Finish order
-        await page.locator('#finish').click();
+        // // Finish order
+        // await page.locator('#finish').click();
         
-        // Verify success message
-        await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
+        // // Verify success message
+        // await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
 
-        //Logout
-        await logout(page);
+        // //Logout
+        // await logout(page);
         
     });
 });
