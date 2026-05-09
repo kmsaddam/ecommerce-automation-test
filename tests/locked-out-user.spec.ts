@@ -8,14 +8,20 @@ test.describe('Locked Out User Test', () => {
       await page.goto('https://www.saucedemo.com/');
     });
 
-    await test.step('Enter credentials', async () => {
+    await page.waitForTimeout(2000);
+
+    await test.step('Enter login credentials', async () => {
       await page.locator('#user-name').fill('locked_out_user');
       await page.locator('#password').fill('secret_sauce');
     });
 
+    await page.waitForTimeout(2000);
+
     await test.step('Click login button', async () => {
       await page.locator('#login-button').click();
     });
+
+    await page.waitForTimeout(2000);
 
     await test.step('Verify login error message is displayed', async () => {
       const error = page.locator('[data-test="error"]');
@@ -24,6 +30,8 @@ test.describe('Locked Out User Test', () => {
       await expect(error).toHaveText(
         'Epic sadface: Sorry, this user has been locked out.'
       );
+
+      await page.waitForTimeout(2000);
     });
 
   });
