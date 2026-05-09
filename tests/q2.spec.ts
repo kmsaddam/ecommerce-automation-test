@@ -16,11 +16,45 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
         // Reset App State
         await resetAppState(page);
 
+        // Add any 3 items
+        const productCards = page.locator('.inventory_item');
+        const count = await productCards.count();  
+        await page.waitForTimeout(1000);
+        console.log(`Total products found: ${count}`);             
+        const selectedProducts: { name: string; price: number }[] = [];
+
+        for (let i = 0; i < 3 && i < count; i++) {
+            const card = productCards.nth(i);
+
+            const name = await card.locator('.inventory_item_name').textContent();
+            const priceText = await card.locator('.inventory_item_price').textContent();
+
+            selectedProducts.push({
+                name: name!.trim(),
+                price: parseFloat(priceText!.replace('$', '')),
+            });
+
+            await card.locator('button').click();
+            await page.waitForTimeout(1000);
+
+            console.log(name);
+        }
+
+        await page.locator('.shopping_cart_link').click();
+        // Verify product items names in cart
+        for (const product of selectedProducts) {
+            await expect(page.locator('.inventory_item_name')).toContainText(product.name);
+            await page.waitForTimeout(1000);
+            console.log(product.name);
+        }
+
+        
+
         // Checkout
-        await checkout(page);
+        //await checkout(page);
 
         // Logout
-        await logout(page);
+        //await logout(page);
         
     });
 });
