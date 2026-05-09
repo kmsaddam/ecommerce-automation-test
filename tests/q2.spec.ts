@@ -15,6 +15,9 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
 
         // Reset App State
         await resetAppState(page);
+
+        // Logout
+        await logout(page);
         
     });
 });
@@ -35,7 +38,9 @@ await page.waitForTimeout(1000);
 
 async function logout(page: any) {
   await page.locator('#react-burger-menu-btn').click();
+  await page.waitForTimeout(1000);
   await expect(page.locator('#logout_sidebar_link')).toBeVisible();
   await page.locator('#logout_sidebar_link').click();
+  await page.waitForTimeout(1000);
   await expect(page).toHaveURL(/.*saucedemo\.com/);
 }
