@@ -16,6 +16,9 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
         // Reset App State
         await resetAppState(page);
 
+        // Checkout
+        await checkout(page);
+
         // Logout
         await logout(page);
         
@@ -43,4 +46,11 @@ async function logout(page: any) {
   await page.locator('#logout_sidebar_link').click();
   await page.waitForTimeout(1000);
   await expect(page).toHaveURL(/.*saucedemo\.com/);
+}
+
+async function checkout(page: any) {
+    await page.locator('[data-test="firstName"]').fill('Jane');
+    await page.locator('[data-test="lastName"]').fill('Smith');
+    await page.locator('[data-test="postalCode"]').fill('2000');
+    await page.locator('[data-test="continue"]').click();
 }
