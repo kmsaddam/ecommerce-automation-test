@@ -20,6 +20,5 @@ test.describe('Locked Out User Test', () => {
     const error = page.locator('[data-test="error"]');
     await expect(error).toBeVisible();
     await expect(error).toHaveText('Epic sadface: Sorry, this user has been locked out.');
-    await page.waitForTimeout(2000);
   });
 });
