@@ -2,14 +2,12 @@ import {test, expect} from '@playwright/test';
 import Logout from '../utils/logout';
 import Checkout from '../utils/Checkout';
 import ResetAppState from '../utils/ResetAppState';
-
-const baseURL = 'https://www.saucedemo.com/';
+import { BaseURL } from '../utils/BaseUrl';
 
 test.describe('Standrad User Login, Cart, Checkout', () => {
     test('Login, Add Items to Cart, Checkout, Logout', async ({page}) => {
-
         // Login
-        await page.goto(baseURL);
+        await page.goto(BaseURL);
         await page.locator('#user-name').fill('standard_user');
         await page.waitForTimeout(1000);
         await page.locator('#password').fill('secret_sauce');
@@ -17,10 +15,9 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
         await page.locator('#login-button').click();
 
         // Reset App State
-        //await resetAppState(page);
         await ResetAppState(page);
 
-        // Add any 3 items
+        // Add 3 items to cart
         const productCards = page.locator('.inventory_item');
         const count = await productCards.count();  
         await page.waitForTimeout(1000);
@@ -44,23 +41,23 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
             console.log(name);
         }
 
+        // Go to cart page
         await page.locator('.shopping_cart_link').click();
-        // Verify product items names in cart
 
+        // Verify product items names in cart
         let cartPageItems = await page.locator('.inventory_item_name').allTextContents();
-        // console.log(cartPageItems);
         let it = 0;
         for (const cardPageItem of cartPageItems) {
             // console.log(it);
             // console.log(selectedProducts[it].name);
-         expect(cartPageItems).toContain(selectedProducts[it].name)
+            expect(cartPageItems).toContain(selectedProducts[it].name)
             // await expect(page.locator('.inventory_item_name')).toContainText(selectedProducts[it].name!.trim());
             it++;
-
         }
 
-        // Verify  items total price
+        await page.waitForTimeout(1000);
 
+        // Verify  items total price
         const totalPriceSelector = await page.locator('.inventory_item_price').allTextContents();
         // const totalPriceCartPage = parseFloat(totalPriceSelector!.replace('$', ''));
         console.log(totalPriceSelector);
@@ -76,24 +73,25 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
 
         expect(totalCartPrice).toEqual(selectedItemPrice);
 
+        await page.waitForTimeout(1000);
 
-        // Start Checkout
+        // Click Checkout Button
         await page.locator("#checkout").click();
 
-        //Checkout
+        //Checkout Page 
         //await checkout(page);
         await Checkout(page);
-
+        await page.waitForTimeout(1000);
         // Finish order
         await page.locator('#finish').click();
+        await page.waitForTimeout(1000);
         
         // Verify success message
         await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
-
+        await page.waitForTimeout(1000);
         //Logout
         //await logout(page);
         await Logout(page);
-        
     });
 });
 

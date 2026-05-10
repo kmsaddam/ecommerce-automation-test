@@ -1,4 +1,5 @@
 import {test, expect} from '@playwright/test';
+import Logout from '../utils/logout';
 
 const baseURL = 'https://www.saucedemo.com/';
 
@@ -57,7 +58,7 @@ test.describe('Performance Glitch User Login, Filter, Cart, Checkout', () => {
         await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
 
         //Logout
-        await logout(page);
+        await Logout(page);
         
     });
 });
