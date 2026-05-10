@@ -28,11 +28,18 @@ test.describe('Performance Glitch User Login, Filter, Cart, Checkout', () => {
 
         console.log(firstItemName);
         await firstProduct.locator('button').click();
-        await page.waitForTimeout(1000);
+        
         
         await page.locator('.shopping_cart_link').click();
 
-        // Verify product in cart
+        
+        // Click Checkout Button
+        await page.locator("#checkout").click();
+
+        //Checkout
+        await Checkout(page);
+
+        // Verify final checkout
         const cartProduct = page.locator('.cart_item').first();
         const cartItemName = await cartProduct.locator('.inventory_item_name').textContent();
         const cartItemPrice = await cartProduct.locator('.inventory_item_price').textContent();
@@ -44,20 +51,21 @@ test.describe('Performance Glitch User Login, Filter, Cart, Checkout', () => {
         // Verify product item price in cart
         expect(firstItemPrice).toEqual(cartItemPrice);
 
-        // Click Checkout Button
-        await page.locator("#checkout").click();
+        //Subtotal Price in Final Checkout Page
+        const subtotalText = await page.locator('.summary_subtotal_label').textContent();
+        const subtotalPrice = parseFloat(subtotalText!.replace('Item total: $', ''));
+        console.log(subtotalPrice);
+        expect(subtotalPrice).toEqual(parseFloat(cartItemPrice!.replace('$', '')));
 
-        //Checkout
-        await Checkout(page);
-        await page.waitForTimeout(1000);
 
         // Finish order
         await page.locator('#finish').click();
-        await page.waitForTimeout(1000);
         
         // Verify success message
         await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
-        await page.waitForTimeout(1000);
+
+        // Reset App State
+        await ResetAppState(page);
 
         //Logout
         await Logout(page);
