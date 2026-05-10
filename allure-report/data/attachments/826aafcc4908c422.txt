@@ -1,0 +1,15 @@
+Total products found: 6
+Sauce Labs Backpack
+Sauce Labs Bike Light
+Sauce Labs Bolt T-Shirt
+[
+  'Sauce Labs Backpack',
+  'Sauce Labs Bike Light',
+  'Sauce Labs Bolt T-Shirt'
+]
+0
+Sauce Labs Backpack
+1
+Sauce Labs Bike Light
+2
+Sauce Labs Bolt T-Shirt
