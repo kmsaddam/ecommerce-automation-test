@@ -1,4 +1,7 @@
 import {test, expect} from '@playwright/test';
+import Logout from '../utils/logout';
+import Checkout from '../utils/Checkout';
+import ResetAppState from '../utils/ResetAppState';
 
 const baseURL = 'https://www.saucedemo.com/';
 
@@ -14,7 +17,8 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
         await page.locator('#login-button').click();
 
         // Reset App State
-        await resetAppState(page);
+        //await resetAppState(page);
+        await ResetAppState(page);
 
         // Add any 3 items
         const productCards = page.locator('.inventory_item');
@@ -70,13 +74,15 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
         const selectedItemPrice = selectedProducts.reduce((sum, item) => sum + item.price, 0);
         console.log(selectedItemPrice);
 
-        expect(totalCartPrice).toEqual(selectedItemPrice)
-        // Start Checkout
+        expect(totalCartPrice).toEqual(selectedItemPrice);
 
+
+        // Start Checkout
         await page.locator("#checkout").click();
 
         //Checkout
-        await checkout(page);
+        //await checkout(page);
+        await Checkout(page);
 
         // Finish order
         await page.locator('#finish').click();
@@ -85,37 +91,11 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
         await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
 
         //Logout
-        await logout(page);
+        //await logout(page);
+        await Logout(page);
         
     });
 });
 
-// Helper Functions
 
-async function resetAppState(page:any) {
-await page.waitForTimeout(1000);
-  await page.locator('#react-burger-menu-btn').click();
-  await page.waitForTimeout(1000);
-  await expect(page.locator('#reset_sidebar_link')).toBeVisible();
-  await page.waitForTimeout(1000);
-  await page.locator('#reset_sidebar_link').click();
-  await page.waitForTimeout(1000);
-  await page.locator('#react-burger-cross-btn').click();
-  await page.waitForTimeout(1000);
-}
 
-async function logout(page: any) {
-  await page.locator('#react-burger-menu-btn').click();
-  await page.waitForTimeout(1000);
-  await expect(page.locator('#logout_sidebar_link')).toBeVisible();
-  await page.locator('#logout_sidebar_link').click();
-  await page.waitForTimeout(1000);
-  await expect(page).toHaveURL(/.*saucedemo\.com/);
-}
-
-async function checkout(page: any) {
-    await page.locator('#first-name').fill('Saddam');
-    await page.locator('#last-name').fill('Hossain');
-    await page.locator('#postal-code').fill('1230');
-    await page.locator('#continue').click();
-}
