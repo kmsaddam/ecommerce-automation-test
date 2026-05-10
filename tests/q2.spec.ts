@@ -89,6 +89,7 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
         // Verify success message
         await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
         await page.waitForTimeout(1000);
+        
         //Logout
         //await logout(page);
         await Logout(page);

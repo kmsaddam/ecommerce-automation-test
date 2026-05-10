@@ -1,13 +1,13 @@
 import {test, expect} from '@playwright/test';
 import Logout from '../utils/logout';
-
-const baseURL = 'https://www.saucedemo.com/';
+import Checkout from '../utils/Checkout';
+import { BaseURL } from '../utils/BaseUrl';
+import ResetAppState from '../utils/ResetAppState';
 
 test.describe('Performance Glitch User Login, Filter, Cart, Checkout', () => {
     test('Login, Filter, Add First Item to Cart, Checkout, Logout', async ({page}) => {
-
         // Login
-        await page.goto(baseURL);
+        await page.goto(BaseURL);
         await page.locator('#user-name').fill('performance_glitch_user');
         await page.waitForTimeout(1000);
         await page.locator('#password').fill('secret_sauce');
@@ -15,7 +15,7 @@ test.describe('Performance Glitch User Login, Filter, Cart, Checkout', () => {
         await page.locator('#login-button').click();
 
         // Reset App State
-        await resetAppState(page);
+        await ResetAppState(page);
 
         // Filter Z to A
         await page.locator('[data-test="product-sort-container"]').selectOption({label: 'Name (Z to A)'});
@@ -44,51 +44,22 @@ test.describe('Performance Glitch User Login, Filter, Cart, Checkout', () => {
         // Verify product item price in cart
         expect(firstItemPrice).toEqual(cartItemPrice);
 
-        // Start Checkout
-
+        // Click Checkout Button
         await page.locator("#checkout").click();
 
         //Checkout
-        await checkout(page);
+        await Checkout(page);
+        await page.waitForTimeout(1000);
 
         // Finish order
         await page.locator('#finish').click();
+        await page.waitForTimeout(1000);
         
         // Verify success message
         await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
+        await page.waitForTimeout(1000);
 
         //Logout
         await Logout(page);
-        
     });
 });
-
-// Helper Functions
-
-async function resetAppState(page:any) {
-await page.waitForTimeout(1000);
-  await page.locator('#react-burger-menu-btn').click();
-  await page.waitForTimeout(1000);
-  await expect(page.locator('#reset_sidebar_link')).toBeVisible();
-  await page.waitForTimeout(1000);
-  await page.locator('#reset_sidebar_link').click();
-  await page.waitForTimeout(1000);
-  await page.locator('#react-burger-cross-btn').click();
-  await page.waitForTimeout(1000);
-}
-
-async function logout(page: any) {
-  await page.locator('#react-burger-menu-btn').click();
-  await page.waitForTimeout(1000);
-  await expect(page.locator('#logout_sidebar_link')).toBeVisible();
-  await page.locator('#logout_sidebar_link').click();
-  await page.waitForTimeout(1000);
-  await expect(page).toHaveURL(/.*saucedemo\.com/);
-}
-
-async function checkout(page: any) {
-    await page.locator('#first-name').fill('Saddam');
-    await page.locator('#last-name').fill('Hossain');
-    await page.locator('#postal-code').fill('1230');
-    await page.locator('#continue').click();
-}
