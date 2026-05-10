@@ -43,6 +43,16 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
 
         // Go to cart page
         await page.locator('.shopping_cart_link').click();
+        await page.waitForTimeout(1000);
+
+        // Click Checkout Button
+        await page.locator("#checkout").click();
+        await page.waitForTimeout(1000);
+
+        //Checkout Page 
+        //await checkout(page);
+        await Checkout(page);
+        await page.waitForTimeout(1000);
 
         // Verify product items names in cart
         let cartPageItems = await page.locator('.inventory_item_name').allTextContents();
@@ -57,38 +67,36 @@ test.describe('Standrad User Login, Cart, Checkout', () => {
 
         await page.waitForTimeout(1000);
 
-        // Verify  items total price
+        // Verify  items total in Final Checkout Page
         const totalPriceSelector = await page.locator('.inventory_item_price').allTextContents();
         // const totalPriceCartPage = parseFloat(totalPriceSelector!.replace('$', ''));
         console.log(totalPriceSelector);
-        const totalCartPrice = totalPriceSelector.reduce((sum, current) => {
-                const num = parseFloat(current.replace(/[$,]/g, ''));
-                return sum + num;
-                }, 0);
+        // const totalCartPrice = totalPriceSelector.reduce((sum, current) => {
+        //         const num = parseFloat(current.replace(/[$,]/g, ''));
+        //         return sum + num;
+        //         }, 0);
 
-                console.log(totalCartPrice);
+        //         console.log(totalCartPrice);
 
         const selectedItemPrice = selectedProducts.reduce((sum, item) => sum + item.price, 0);
         console.log(selectedItemPrice);
 
-        expect(totalCartPrice).toEqual(selectedItemPrice);
 
-        await page.waitForTimeout(1000);
+        //Subtotal Price in Final Checkout Page
+        const subtotalText = await page.locator('.summary_subtotal_label').textContent();
+        const subtotalPrice = parseFloat(subtotalText!.replace('Item total: $', ''));
+        console.log(subtotalPrice);
+        expect(subtotalPrice).toEqual(selectedItemPrice);
 
-        // Click Checkout Button
-        await page.locator("#checkout").click();
-
-        //Checkout Page 
-        //await checkout(page);
-        await Checkout(page);
         await page.waitForTimeout(1000);
         // Finish order
         await page.locator('#finish').click();
-        await page.waitForTimeout(1000);
         
         // Verify success message
         await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
-        await page.waitForTimeout(1000);
+
+        // Reset App State
+        await ResetAppState(page);
         
         //Logout
         //await logout(page);
