@@ -20,6 +20,69 @@ Ecommerce Automation Project to verify Login, Cart and Checkout using Playwright
 
 ## 📁 Project Structure
 
+ecommerce-automation-test/
+├── .github/
+│   └── workflows/
+│       └── playwright.yml
+├── .gitignore
+├── allure-report/
+│   ├── assets/
+│   │   ├── favicon-BDLHVmV7.ico
+│   │   └── index-CVsGnucd.js
+│   ├── data/
+│   │   ├── attachments/
+│   │   │   ├── 116539de21778fea.txt
+│   │   ├── categories.csv
+│   │   ├── categories.json
+│   │   ├── suites.csv
+│   │   ├── suites.json
+│   │   ├── test-cases/
+│   │   │   ├── 11271371c0fbcb92.json
+│   │   └── timeline.json
+│   ├── export/
+│   │   ├── influxDbData.txt
+│   │   ├── mail.html
+│   │   └── prometheusData.txt
+│   ├── history/
+│   │   ├── categories-trend.json
+│   │   ├── duration-trend.json
+│   │   ├── history-trend.json
+│   │   ├── history.json
+│   │   └── retry-trend.json
+│   ├── index.html
+│   └── widgets/
+│       ├── categories-trend.json
+│       ├── categories.json
+│       ├── duration-trend.json
+│       ├── duration.json
+│       ├── environment.json
+│       ├── executors.json
+│       ├── history-trend.json
+│       ├── launch.json
+│       ├── retry-trend.json
+│       ├── severity.json
+│       ├── status-chart.json
+│       ├── suites.json
+│       └── summary.json
+├── allure-results/
+│   ├── 001b1fa2-5c36-4622-a0e1-5122a79c1525-attachment.png  
+├── final_tests/
+│   ├── q1.spec.ts
+│   ├── q2.spec.ts
+│   └── q3.spec.ts
+├── Manual-Testing/
+│   ├── Q1_TestCases.xlsx
+│   ├── Q2_TestCases.xlsx
+│   └── Q3_TestCases.xlsx
+├── package-lock.json
+├── package.json
+├── playwright.config.ts
+├── README.md
+└── utils/
+    ├── BaseUrl.js
+    ├── checkout.ts
+    ├── logout.ts
+    └── resetAppState.ts
 
 
 ## ⚙️ Installation
@@ -44,7 +107,6 @@ npm install -D allure-playwright <br >
 npm install -D allure-commandline
 
 
-
 ## ▶️ Running Tests
 
 ### Run all tests
@@ -58,8 +120,9 @@ npx playwright test --headed
 
 ### Run a specific file
 
-npx playwright test tests/locked-out-user.spec.ts
-
+npx playwright test q1.spec.ts <br />
+npx playwright test q2.spec.ts <br />
+npx playwright test q3.spec.ts <br />
 
 ## 📊 Viewing Reports
 
